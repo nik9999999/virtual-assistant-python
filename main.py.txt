@@ -1,0 +1,209 @@
+# Virtual Assistant - MCA 4th Sem project by Nikhil Bhardwaj
+# Voice-controlled desktop assistant for Windows (Python 3.9+)
+
+import datetime
+import os
+import webbrowser
+
+import pyjokes
+import pyttsx3
+import pywhatkit
+import speech_recognition as sr
+import wikipedia
+from PyDictionary import PyDictionary
+
+dic = PyDictionary()
+
+
+def takeCommand():
+    """Listen through the microphone and return the recognized text."""
+    r = sr.Recognizer()
+
+    with sr.Microphone() as source:
+        print("Listening")
+        # seconds of non-speaking audio before a phrase is considered complete
+        r.pause_threshold = 0.7
+        audio = r.listen(source)
+
+    try:
+        print("Recognizing")
+        # 'en-in' = Indian English; use 'hi-IN' for Hindi recognition
+        Query = r.recognize_google(audio, language="en-in")
+        print("the command is printed=", Query)
+    except Exception as e:
+        print(e)
+        print("Say that again sir")
+        return "None"
+
+    return Query
+
+
+def speak(audio):
+    engine = pyttsx3.init()
+    voices = engine.getProperty("voices")
+    # voices[0] = male voice, voices[1] = female voice
+    engine.setProperty("voice", voices[0].id)
+    engine.say(audio)
+    engine.runAndWait()
+
+
+def tellDay():
+    """Tell the day of the week."""
+    day = datetime.datetime.today().weekday() + 1
+    Day_dict = {1: "Monday", 2: "Tuesday", 3: "Wednesday", 4: "Thursday",
+                5: "Friday", 6: "Saturday", 7: "Sunday"}
+    if day in Day_dict:
+        day_of_the_week = Day_dict[day]
+        print(day_of_the_week)
+        speak("The day is " + day_of_the_week)
+
+
+def tellTime():
+    """Tell the current time."""
+    time = str(datetime.datetime.now())
+    print(time)
+    hour = time[11:13]
+    minute = time[14:16]
+    speak("The time is sir" + hour + "Hours and" + minute + "Minutes")
+
+
+def Hello():
+    speak("hello sir I am your desktop assistant. Tell me how may I help you")
+
+
+def Take_query():
+    Hello()
+
+    # Runs until the user says "bye"
+    while True:
+        query = takeCommand().lower()
+
+        if "open geeksforgeeks" in query:
+            speak("Opening GeeksforGeeks ")
+            webbrowser.open("www.geeksforgeeks.com")
+            continue
+
+        elif "open google" in query:
+            speak("Opening Google ")
+            webbrowser.open("www.google.com")
+            continue
+
+        elif "ramram" in query or "jai shree ram" in query:
+            print("Hail Lord Ram")
+            speak("Hail lord Ram")
+
+        elif "check mail" in query:
+            speak("checking mails")
+            webbrowser.open("www.gmail.com")
+            continue
+
+        elif "value of pi" in query:
+            speak("3.14159")
+            continue
+
+        elif "which day it is" in query:
+            tellDay()
+            continue
+
+        elif "tell me the time" in query:
+            tellTime()
+            continue
+
+        elif "bye" in query:
+            speak("Bye. see you soon")
+            exit()
+
+        elif "from wikipedia" in query:
+            speak("Checking the wikipedia ")
+            query = query.replace("wikipedia", "")
+            result = wikipedia.summary(query, sentences=4)
+            print(result)
+            speak("According to wikipedia")
+            speak(result)
+
+        elif "good" in query:
+            speak("thank you")
+
+        elif "jokes" in query or "one more joke" in query:
+            joke = pyjokes.get_joke(language="en", category="neutral")
+            print(joke)
+            speak(joke)
+
+        elif "meaning of" in query:
+            word = query.replace("meaning of", "")
+            meaningg = dic.meaning(word)
+            print(meaningg)
+            speak(f"{word} means {meaningg}")
+
+        elif "synonym of" in query:
+            sword = query.replace("synonym of", "")
+            synonym = dic.synonym(sword)
+            print(synonym)
+            speak(synonym)
+
+        elif "antonym of" in query:
+            aword = query.replace("antonym of", "")
+            antonym = dic.antonym(aword)
+            print(antonym)
+            speak(antonym)
+
+        elif "translate into hindi" in query:
+            sentence = query.replace("translate into hindi", "")
+            translation = dic.translate(sentence, language="hi")
+            print(translation)
+            speak(translation)
+
+        elif "play from memory" in query:
+            add = r"D:\songs"
+            listsongs = os.listdir(add)
+            print(listsongs)
+            os.startfile(os.path.join(add, listsongs[4]))
+            speak("playing from memory")
+
+        elif "search on google" in query:
+            search = query.replace("search on google", "")
+            url = "https://www.google.com/search?q=" + search
+            webbrowser.get().open(url)
+            speak("Here is what i found about" + search)
+
+        elif "weather" in query or "todays weather" in query:
+            url = "https://www.google.com/search?q=weather+today"
+            webbrowser.get().open(url)
+            speak("here is today's weather")
+
+        elif "search" in query:
+            phrase = query.replace("search", "")
+            pywhatkit.search(phrase)
+            speak("searching" + phrase)
+
+        elif "shutdown" in query:
+            speak("shutting down ")
+            pywhatkit.shutdown(5)
+
+        elif "on youtube" in query:
+            item = query.replace("on youtube", "").replace("open", "")
+            url = "https://www.youtube.com/results?search_query=" + item
+            webbrowser.get().open(url)
+            speak("opening " + item + "on youtube")
+
+        elif "play" in query:
+            song = query.replace("play", "")
+            speak("playing" + song)
+            pywhatkit.playonyt(song)
+
+	elif "send message to myself" in query: per=query.replace("send message to myself","") speak("sending message 			to"+per) pywhatkit.sendwhatmsg_instantly("+918851202477",per,10 )
+
+	elif "send message to" in query: person=query.replace("send message to","") message=input("write message: ") 			speak("sending message to" + person)
+		pywhatkit.sendwhatmsg_instantly("+918851202477",message,10 )
+
+	elif "on maps" in query: location=query.replace("search","")+query.replace("on maps","") 					url="https://google.nl/maps/place/" + location + "/&amp;" webbrowser.get().open(url)
+		speak ("searching "+location)
+
+
+	elif "what is your name" in query:
+		speak("I am Picle. Your desktop Assistant")
+
+
+
+if __name__ == "__main__":
+    Take_query()
