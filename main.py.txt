@@ -1,4 +1,4 @@
-# Virtual Assistant - MCA 4th Sem project by Nikhil Bhardwaj
+# Virtual Assistant -project by Nikhil Bhardwaj
 # Voice-controlled desktop assistant for Windows (Python 3.9+)
 
 import datetime
@@ -154,7 +154,7 @@ def Take_query():
             speak(translation)
 
         elif "play from memory" in query:
-            add = r"D:\songs"
+            add = r"C:\songs"
             listsongs = os.listdir(add)
             print(listsongs)
             os.startfile(os.path.join(add, listsongs[4]))
@@ -191,17 +191,17 @@ def Take_query():
             speak("playing" + song)
             pywhatkit.playonyt(song)
 
-	elif "send message to myself" in query: per=query.replace("send message to myself","") speak("sending message 			to"+per) pywhatkit.sendwhatmsg_instantly("+918851202477",per,10 )
+		elif "send message to myself" in query: per=query.replace("send message to myself","") speak("sending message to"+per) 						pywhatkit.sendwhatmsg_instantly("+91895120XXXX",per,10 )
 
-	elif "send message to" in query: person=query.replace("send message to","") message=input("write message: ") 			speak("sending message to" + person)
-		pywhatkit.sendwhatmsg_instantly("+918851202477",message,10 )
+		elif "send message to" in query: person=query.replace("send message to","") message=input("write message: ") 								speak("sending message to" + person)
+			pywhatkit.sendwhatmsg_instantly("+918851202477",message,10 )
 
-	elif "on maps" in query: location=query.replace("search","")+query.replace("on maps","") 					url="https://google.nl/maps/place/" + location + "/&amp;" webbrowser.get().open(url)
-		speak ("searching "+location)
+		elif "on maps" in query: location=query.replace("search","")+query.replace("on maps","") 													url="https://google.nl/maps/place/" + location + "/&amp;" webbrowser.get().open(url)
+			speak ("searching "+location)
 
 
-	elif "what is your name" in query:
-		speak("I am Picle. Your desktop Assistant")
+		elif "what is your name" in query:
+			speak("I am Picle. Your desktop Assistant")
 
 
 
