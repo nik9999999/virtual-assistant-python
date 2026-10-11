@@ -45,9 +45,6 @@ This project is a Python-based desktop virtual assistant designed to simplify ev
 ## Screenshots
 See the `screenshots` folder for application outputs.
 
-## Project Documentation
-The MCA project report is included in this repository.
-
 ## Author
 Nikhil Bhardwaj
-Linkedin:www.linkedin.com/in/nikhil-bhardwaj-188762312
+Linkedin: www.linkedin.com/in/nikhil-bhardwaj-188762312
